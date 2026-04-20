@@ -9,7 +9,7 @@ A clean, customizable, and mobile-friendly UI library for Roblox.
 Load the library:
 
 ```lua
-local NexusLib = loadstring(game:HttpGet("YOUR_RAW_URL_HERE"))()
+local NexusLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/doenteexploiter/DoenteLIB/refs/heads/main/DoenteLib.lua))()
 local Window   = NexusLib.new()
 ```
 
