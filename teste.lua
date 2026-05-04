@@ -1022,6 +1022,69 @@ end
 
 function OrionLib:Destroy()
     Orion:Destroy()
-end
+		end
 
+-- Adicionar função AddExecutorTab às tabs
+local originalMakeTab = OrionLib.MakeWindow
+OrionLib.MakeWindow = function(WindowConfig)
+    local TabFunction = originalMakeTab(WindowConfig)
+    
+    local originalMakeTab = TabFunction.MakeTab
+    TabFunction.MakeTab = function(TabConfig)
+        local Elements = originalMakeTab(TabConfig)
+        
+        -- Adicionar método AddExecutorTab
+        function Elements:AddExecutorTab()
+            local ExecSection = self:AddSection({ Name = "Script Executor" })
+            
+            local ScriptBox = Create("TextBox", {
+                Size = UDim2.new(1, -30, 0, 100),
+                BackgroundColor3 = Color3.fromRGB(40, 40, 40),
+                TextColor3 = Color3.fromRGB(240, 240, 240),
+                PlaceholderColor3 = Color3.fromRGB(150, 150, 150),
+                PlaceholderText = "Cole seu script aqui...",
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextYAlignment = Enum.TextYAlignment.Top,
+                TextWrapped = true,
+                Font = Enum.Font.Gotham,
+                TextSize = 12,
+                ClearTextOnFocus = false
+            })
+            
+            local BoxCorner = Create("UICorner", { CornerRadius = UDim.new(0, 8) })
+            BoxCorner.Parent = ScriptBox
+            
+            ExecSection:AddButton({
+                Name = "▶ Executar Script",
+                Callback = function()
+                    if ScriptBox.Text and ScriptBox.Text ~= "" then
+                        local success, err = pcall(function()
+                            local func = loadstring(ScriptBox.Text)
+                            if func then func() end
+                        end)
+                        OrionLib:MakeNotification({
+                            Name = "Executor",
+                            Content = success and "Executado!" or "Erro: " .. tostring(err),
+                            Time = 3
+                        })
+                    end
+                end
+            })
+            
+            ExecSection:AddButton({
+                Name = "🗑 Limpar",
+                Callback = function()
+                    ScriptBox.Text = ""
+                end
+            })
+            
+            return ScriptBox
+        end
+        
+        return Elements
+    end
+    
+    return TabFunction
+end
+		
 return OrionLib
