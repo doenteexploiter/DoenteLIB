@@ -5,8 +5,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 local TextService = game:GetService("TextService")
-local ClipboardService = game:GetService("ClipboardService")
-
+local hasClipboard = pcall(function() return setclipboard end)
 local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
