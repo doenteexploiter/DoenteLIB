@@ -5,29 +5,6 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 local TextService = game:GetService("TextService")
--- Função para copiar texto (funciona em vários executors)
-local function CopyToClipboard(text)
-    local success = false
-    
-    -- Tenta diferentes métodos
-    pcall(function()
-        if setclipboard then
-            setclipboard(text)
-            success = true
-        elseif toclipboard then
-            toclipboard(text)
-            success = true
-        elseif Clipboard then
-            Clipboard:set(text)
-            success = true
-        elseif game:GetService("Clipboard") then
-            game:GetService("Clipboard"):set(text)
-            success = true
-        end
-    end)
-    
-    return success
-end
 local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
